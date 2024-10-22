@@ -1,0 +1,32 @@
+<!-- Scriptinjector body start  -->
+{%- assign script_data = shop.metafields.custom-script.header-script -%}
+{%- if script_data != blank -%}
+  {%- assign cleaned_script = script_data | replace: '\u003c', '<' | replace: '\u003e', '>'  | replace: '\t', '' | replace: '\"', '"' -%}
+  {%- assign script_items = cleaned_script | split: '},{' -%}
+  {%- for item in script_items -%}
+    {%- assign item = '{' | append: item | append: '}' -%}
+    {%- if item contains '"body":' -%}
+      {%- assign body_data = item | split: '"body":"' -%}
+      {%- assign body_content = body_data[1] | split: '",' -%}
+      {%- assign body_value = body_content[0] | strip  | replace: '\t', ' '| replace: '\n', ' 
+      ' -%}
+        {%- if body_value contains '<script' -%}
+        {{- body_value | strip -}}
+      {%- elsif body_value contains '<link' -%}
+        {{- body_value | strip -}}
+      {%- else -%}
+       <script>
+          {{ body_value | strip  }}
+       </script>
+           {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+<!-- Scriptinjector body end  -->
+{% schema %}
+{
+  "name": "ScriptInjector Body",
+  "target": "body",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,35 @@
+<!-- Scriptinjector header start  -->
+{%- assign script_data = shop.metafields.custom-script.header-script -%}
+{%- if script_data != blank -%}
+  {%- assign cleaned_script = script_data | replace: '\u003c', '<' | replace: '\u003e', '>'  | replace: '\t', '' | replace: '\"', '"' -%}
+  {%- assign script_items = cleaned_script | split: '},{' -%}
+  {%- for item in script_items -%}
+    {%- assign item = '{' | append: item | append: '}' -%}
+    {%- if item contains '"header":' -%}
+      {%- assign header_start = item | split: '"header":"' -%}
+      {%- assign header_content = header_start[1] | split: '",' -%}
+      {%- assign header_value = header_content[0] | strip  | replace: '\t', ' ' | replace: '\n', ' 
+      ' -%}
+      {%- if header_value contains '<script' -%}
+        {{- header_value | strip -}}
+      {%- elsif header_value contains '<link' -%}
+        {{- header_value | strip -}}
+      {%- else -%}
+       
+          {{ header_value | strip  }}
+       
+      {%- endif -%}
+    {%- endif -%}
+  
+  {%- endfor -%}
+{%- endif -%}
+
+<!-- Scriptinjector header end  -->
+
+{% schema %}
+{
+  "name": "ScriptInjector Header",
+  "target": "head",
+  "settings": []
+}
+{% endschema %}
