@@ -1,7 +1,6 @@
 import {
   Layout,
   Page,
-  EmptyState,
   Card,
   Box,
   Text,
@@ -47,7 +46,7 @@ export const loader = async ({ request }) => {
 
 export default function FirstPagePage() {
   const data = useLoaderData();
-  const [shopOwnerName, setShopOwnerName] = useState("");
+  const [shopOwnerName, setShopOwnerName] = useState("User");
   useEffect(() => {
     const shop = data?.shopDetails?.shop?.shop_owner;
     setShopOwnerName(shop);
@@ -90,7 +89,7 @@ export default function FirstPagePage() {
                         style={{ display: "none" }}
                       >
                        
-                        {shopOwnerName ? shopOwnerName : "User"} 👋
+                        {shopOwnerName} 👋
                       </Text>
                    
                   </Box>

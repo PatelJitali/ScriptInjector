@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
 import {
-  Box,
   Button,
   Card,
   InlineStack,
@@ -165,7 +164,7 @@ return json({
 };
 
 export const action = async ({ request }) => {
-  const { admin ,session  } = await authenticate.admin(request);
+  // const { admin ,session  } = await authenticate.admin(request);
   
   if (request.method !== "DELETE") {
     return json({ message: "Method not allowed" }, { status: 405 });
@@ -187,22 +186,10 @@ export const action = async ({ request }) => {
   }
 };
 
-const setBannerDismissed = (hours) => {
-  const expiryTime = new Date().getTime() + hours * 60 * 60 * 1000;
-  localStorage.setItem("bannerDismissedExpiry", expiryTime);
-};
-
-const isBannerDismissed = () => {
-  const expiryTime = localStorage.getItem("bannerDismissedExpiry");
-  if (!expiryTime) return false;
-  return new Date().getTime() < expiryTime;
-};
-
-
 const Test = () => {
   const {appEmbedEnabled, headerappEmbedEnabled, appID,blockType,headerappID,headerblockType } = useLoaderData()
-  const [appEmbedStatus, setappEmbedStatus] = useState(appEmbedEnabled);
-  const [headerappEmbedStatus, setheaderappEmbedStatus] = useState(headerappEmbedEnabled);
+  // const [appEmbedStatus, setappEmbedStatus] = useState(appEmbedEnabled);
+  // const [headerappEmbedStatus, setheaderappEmbedStatus] = useState(headerappEmbedEnabled);
   const shopName1 = useLoaderData();
   const navigate = useNavigate();
   const location = useLocation();
@@ -226,11 +213,6 @@ const Test = () => {
       setShowBanner(false);
     }
   }, []);
-
-  const handleBannerDismiss = () => {
-    setBannerDismissed(24); 
-    setShowBanner(false);
-  };
 
   useEffect(() => {
     window.globalShopName = shopName1.shop;
@@ -322,6 +304,7 @@ const Test = () => {
 
   const rows = Array.isArray(currentItems) 
   ? currentItems.map((item, index) => [
+    <>
     <div style={{ padding: '15px'}}>
       <Text variant="bodyMd">{item.title}</Text>
     </div>,
@@ -331,7 +314,7 @@ const Test = () => {
         <Button variant="primary" tone="critical" size="slim" icon={DeleteIcon} onClick={() => handleDeleteClick(item._id)} destructive>Delete</Button>
       </ButtonGroup>
     </div>
-  
+    </>
   ]) 
   : [];
 
@@ -365,7 +348,7 @@ const Test = () => {
   <Grid>
     {/* body embed */}
     <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
-      {!appEmbedStatus && showBanner ? (
+      {!appEmbedEnabled && showBanner ? (
         <LegacyCard title="App Embed for body" sectioned>
           <Banner title="App embed is missing from live theme" tone="critical">
                 <Button
@@ -377,7 +360,7 @@ const Test = () => {
           </Banner>
         </LegacyCard>
       ) : (
-        appEmbedStatus && (
+        appEmbedEnabled && (
           <LegacyCard title="App Embed for body" sectioned>
             <Badge tone="success" progress="complete">
               Activated
@@ -389,7 +372,7 @@ const Test = () => {
 
    {/* header embed */}
     <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
-      {!headerappEmbedStatus && showBanner ? (
+      {!headerappEmbedEnabled && showBanner ? (
         <LegacyCard title="App Embed for header" sectioned>
           <Banner title="App embed is missing from live theme" tone="critical">
                 <Button
@@ -401,7 +384,7 @@ const Test = () => {
           </Banner>
         </LegacyCard>
       ) : (
-        headerappEmbedStatus && (
+        headerappEmbedEnabled && (
           <LegacyCard title="App Embed for header" sectioned>
             <Badge tone="success" progress="complete">
               Activated
@@ -434,12 +417,14 @@ const Test = () => {
                     
                     ]}
                     headings={[
+                      <>
                       <div style={{ paddingLeft: '15px' }}>
                       <Text variant="bodyMd" fontWeight="bold">Title</Text>
                     </div>,
                       <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' , paddingRight: '70px'}}>
                         <Text variant="bodyMd" fontWeight="bold">Action</Text>
                       </div>,
+                      </>
                     ]}
                     rows={rows}
                     hideScrollIndicator

@@ -3,11 +3,11 @@
 client_id = "a909c1abad5d56ab094373fd4f59a9b0"
 name = "ScriptInjector New "
 handle = "scriptinjector-new"
-application_url = "https://percentage-specs-graphs-scared.trycloudflare.com"
+application_url = "https://scriptinjector.fly.dev"
 embedded = true
 
 [build]
-automatically_update_urls_on_dev = true
+automatically_update_urls_on_dev = false
 dev_store_url = "test-careers-store.myshopify.com"
 include_config_on_deploy = true
 
@@ -17,9 +17,9 @@ scopes = "read_themes,write_themes"
 
 [auth]
 redirect_urls = [
-  "https://percentage-specs-graphs-scared.trycloudflare.com/auth/callback",
-  "https://percentage-specs-graphs-scared.trycloudflare.com/auth/shopify/callback",
-  "https://percentage-specs-graphs-scared.trycloudflare.com/api/auth/callback"
+  "https://scriptinjector.fly.dev/auth/callback",
+  "https://scriptinjector.fly.dev/auth/shopify/callback",
+  "https://scriptinjector.fly.dev/api/auth/callback"
 ]
 
 [webhooks]
