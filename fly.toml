@@ -12,7 +12,7 @@ primary_region = 'ams'
 
  PORT = "3000"
  SHOPIFY_APP_URL = "https://scriptinjector.fly.dev/"
- SHOPIFY_API_KEY = "a909c1abad5d56ab094373fd4f59a9b0"
+ SHOPIFY_API_KEY = "7870bea37008fd315d433195cc87e446"
  SCOPES = "read_themes,write_themes"
 
 [http_service]

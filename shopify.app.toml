@@ -1,14 +1,14 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-client_id = "a909c1abad5d56ab094373fd4f59a9b0"
-name = "ScriptInjector New "
-handle = "scriptinjector-new"
+client_id = "7870bea37008fd315d433195cc87e446"
+name = "ScriptInjector"
+handle = "scriptinjectorapp"
 application_url = "https://scriptinjector.fly.dev"
 embedded = true
 
 [build]
 automatically_update_urls_on_dev = false
-dev_store_url = "test-careers-store.myshopify.com"
+dev_store_url = "scriptinjector.myshopify.com"
 include_config_on_deploy = true
 
 [access_scopes]
