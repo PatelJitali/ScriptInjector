@@ -3,7 +3,7 @@
 client_id = "a909c1abad5d56ab094373fd4f59a9b0"
 name = "ScriptInjector New "
 handle = "scriptinjector-new"
-application_url = "https://directory-incidents-expressed-ctrl.trycloudflare.com"
+application_url = "https://percentage-specs-graphs-scared.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_themes,write_themes"
 
 [auth]
 redirect_urls = [
-  "https://directory-incidents-expressed-ctrl.trycloudflare.com/auth/callback",
-  "https://directory-incidents-expressed-ctrl.trycloudflare.com/auth/shopify/callback",
-  "https://directory-incidents-expressed-ctrl.trycloudflare.com/api/auth/callback"
+  "https://percentage-specs-graphs-scared.trycloudflare.com/auth/callback",
+  "https://percentage-specs-graphs-scared.trycloudflare.com/auth/shopify/callback",
+  "https://percentage-specs-graphs-scared.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

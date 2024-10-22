@@ -83,15 +83,16 @@ export default function FirstPagePage() {
                     <Text as="h1" variant="headingXl">
                       Good {greetings()},&nbsp;
                     </Text>
-                    {shopOwnerName && (
+                   
                       <Text
                         as="h1"
                         variant="headingXl"
                         style={{ display: "none" }}
                       >
-                        {shopOwnerName} 👋
+                       
+                        {shopOwnerName ? shopOwnerName : "User"} 👋
                       </Text>
-                    )}
+                   
                   </Box>
                   <Box paddingBlockStart="100">
                     <Text as="p" variant="bodyLg">
