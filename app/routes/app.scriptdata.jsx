@@ -18,7 +18,9 @@ import {
   ButtonGroup,
   Badge,
   Grid,
+  AppProvider,
 } from "@shopify/polaris";
+import enTranslations from "@shopify/polaris/locales/en.json";
 import {
   useLoaderData,
   useNavigate,
@@ -59,18 +61,22 @@ export const loader = async ({ request }) => {
     );
 
     const resultData = await themeData.json();
+    let appName = "scriptinjector";
     var appEmbedEnabled;
     var blockType;
     var appID;
     if (resultData.asset && resultData.asset.value) {
       const settingsData = JSON.parse(resultData.asset.value);
       if (settingsData.current && settingsData.current.blocks) {
+        console.log(settingsData.current,"settingsData.current")
         Object.values(settingsData.current.blocks).forEach((block) => {
+          console.log(block.type,"block.type")
           if (
-            block.type.includes("scriptinjector") &&
+            block.type.includes(appName) &&
             block.type.includes("front_script_body")
           ) {
             const typeParts = block.type.split("/");
+            console.log(typeParts,"typeParts")
             blockType = typeParts[typeParts.length - 2];
             appID = typeParts[typeParts.length - 1];
           } else {
@@ -81,7 +87,7 @@ export const loader = async ({ request }) => {
         });
         appEmbedEnabled = Object.values(settingsData.current.blocks).some(
           (block) =>
-            block.type.includes("scriptinjector") &&
+            block.type.includes(appName) &&
             block.type.includes("front_script_body") &&
             block.disabled === false,
         );
@@ -100,7 +106,7 @@ export const loader = async ({ request }) => {
       if (settingsData.current && settingsData.current.blocks) {
         Object.values(settingsData.current.blocks).forEach((block) => {
           if (
-            block.type.includes("scriptinjector") &&
+            block.type.includes(appName) &&
             block.type.includes("front_script_header")
           ) {
             const typeParts = block.type.split("/");
@@ -115,7 +121,7 @@ export const loader = async ({ request }) => {
         });
         headerappEmbedEnabled = Object.values(settingsData.current.blocks).some(
           (block) =>
-            block.type.includes("scriptinjector") &&
+            block.type.includes(appName) &&
             block.type.includes("front_script_header") &&
             block.disabled === false,
         );
@@ -383,170 +389,172 @@ const Test = () => {
   const totalItems = data.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   return (
-    <Frame>
-      <Page>
-        <ui-title-bar title="Configuration Data"></ui-title-bar>
-        <Layout>
-          <Layout.Section>
-            <InlineStack align="space-between">
-              <Text variant="headingXl" as="h4" alignment="start">
-                Script Injector Codes
-              </Text>
-              <Button
-                variant="primary"
-                onClick={() => navigate("/app/insert_data")}
-              >
-                Add Script
-              </Button>
-            </InlineStack>
-          </Layout.Section>
+    <AppProvider i18n={enTranslations}>
+      <Frame>
+        <Page>
+          <ui-title-bar title="Configuration Data"></ui-title-bar>
+          <Layout>
+            <Layout.Section>
+              <InlineStack align="space-between">
+                <Text variant="headingXl" as="h4" alignment="start">
+                  Script Injector Codes
+                </Text>
+                <Button
+                  variant="primary"
+                  onClick={() => navigate("/app/insert_data")}
+                >
+                  Add Script
+                </Button>
+              </InlineStack>
+            </Layout.Section>
 
-          <Layout.Section>
-            <Grid>
-              {/* body embed */}
-              <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
-                {!appEmbedStatus && showBanner ? (
-                  <LegacyCard title="App Embed for body" sectioned>
-                    <Banner
-                      title="App embed is missing from live theme"
-                      tone="critical"
-                    >
-                      <Button
-                        url={`https://admin.shopify.com/store/${shopNameUrl}/themes/current/editor?context=apps&activateAppId=${appID}/${blockType}`}
-                        target="_blank"
-                      >
-                        Enable App Embed
-                      </Button>
-                    </Banner>
-                  </LegacyCard>
-                ) : (
-                  appEmbedStatus && (
+            <Layout.Section>
+              <Grid>
+                {/* body embed */}
+                <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
+                  {!appEmbedStatus && showBanner ? (
                     <LegacyCard title="App Embed for body" sectioned>
-                      <Badge tone="success" progress="complete">
-                        Activated
-                      </Badge>
-                    </LegacyCard>
-                  )
-                )}
-              </Grid.Cell>
-
-              {/* header embed */}
-              <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
-                {!headerappEmbedStatus && showBanner ? (
-                  <LegacyCard title="App Embed for header" sectioned>
-                    <Banner
-                      title="App embed is missing from live theme"
-                      tone="critical"
-                    >
-                      <Button
-                        url={`https://admin.shopify.com/store/${shopNameUrl}/themes/current/editor?context=apps&activateAppId=${headerappID}/${headerblockType}`}
-                        target="_blank"
+                      <Banner
+                        title="App embed is missing from live theme"
+                        tone="critical"
                       >
-                        Enable App Embed
-                      </Button>
-                    </Banner>
-                  </LegacyCard>
-                ) : (
-                  headerappEmbedEnabled && (
-                    <LegacyCard title="App Embed for header" sectioned>
-                      <Badge tone="success" progress="complete">
-                        Activated
-                      </Badge>
+                        <Button
+                          url={`https://admin.shopify.com/store/${shopNameUrl}/themes/current/editor?context=apps&activateAppId=${appID}/${blockType}`}
+                          target="_blank"
+                        >
+                          Enable App Embed
+                        </Button>
+                      </Banner>
                     </LegacyCard>
-                  )
-                )}
-              </Grid.Cell>
-            </Grid>
-          </Layout.Section>
+                  ) : (
+                    appEmbedStatus && (
+                      <LegacyCard title="App Embed for body" sectioned>
+                        <Badge tone="success" progress="complete">
+                          Activated
+                        </Badge>
+                      </LegacyCard>
+                    )
+                  )}
+                </Grid.Cell>
 
-          <Layout.Section>
-            <LegacyCard>
-              {data.length === 0 ? (
-                <Card>
-                  <EmptyState
-                    heading="You don't have any code"
-                    image="https://cdn.shopify.com/s/files/1/0262/4071/2726/files/emptystate-files.png"
-                  >
-                    <p>Once you have a code it will display on this page.</p>
-                  </EmptyState>
-                </Card>
-              ) : (
-                <>
-                  <DataTable
-                    columnContentTypes={["text", "text"]}
-                    headings={[
-                      <div style={{ paddingLeft: "15px" }}>
-                        <Text variant="bodyMd" fontWeight="bold">
-                          Title
-                        </Text>
-                      </div>,
+                {/* header embed */}
+                <Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 6, xl: 6 }}>
+                  {!headerappEmbedStatus && showBanner ? (
+                    <LegacyCard title="App Embed for header" sectioned>
+                      <Banner
+                        title="App embed is missing from live theme"
+                        tone="critical"
+                      >
+                        <Button
+                          url={`https://admin.shopify.com/store/${shopNameUrl}/themes/current/editor?context=apps&activateAppId=${headerappID}/${headerblockType}`}
+                          target="_blank"
+                        >
+                          Enable App Embed
+                        </Button>
+                      </Banner>
+                    </LegacyCard>
+                  ) : (
+                    headerappEmbedEnabled && (
+                      <LegacyCard title="App Embed for header" sectioned>
+                        <Badge tone="success" progress="complete">
+                          Activated
+                        </Badge>
+                      </LegacyCard>
+                    )
+                  )}
+                </Grid.Cell>
+              </Grid>
+            </Layout.Section>
+
+            <Layout.Section>
+              <LegacyCard>
+                {data.length === 0 ? (
+                  <Card>
+                    <EmptyState
+                      heading="You don't have any code"
+                      image="https://cdn.shopify.com/s/files/1/0262/4071/2726/files/emptystate-files.png"
+                    >
+                      <p>Once you have a code it will display on this page.</p>
+                    </EmptyState>
+                  </Card>
+                ) : (
+                  <>
+                    <DataTable
+                      columnContentTypes={["text", "text"]}
+                      headings={[
+                        <div style={{ paddingLeft: "15px" }}>
+                          <Text variant="bodyMd" fontWeight="bold">
+                            Title
+                          </Text>
+                        </div>,
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            width: "100%",
+                            paddingRight: "70px",
+                          }}
+                        >
+                          <Text variant="bodyMd" fontWeight="bold">
+                            Action
+                          </Text>
+                        </div>,
+                      ]}
+                      rows={rows}
+                      hideScrollIndicator
+                    />
+
+                    {totalPages > 1 && (
                       <div
                         style={{
                           display: "flex",
-                          justifyContent: "flex-end",
-                          width: "100%",
-                          paddingRight: "70px",
+                          justifyContent: "center",
+                          padding: "16px 0",
+                          borderTop: "solid 1px rgb(233 222 222)",
                         }}
                       >
-                        <Text variant="bodyMd" fontWeight="bold">
-                          Action
-                        </Text>
-                      </div>,
-                    ]}
-                    rows={rows}
-                    hideScrollIndicator
-                  />
+                        <Pagination
+                          label={`Page ${currentPage} of ${totalPages}`}
+                          hasPrevious={currentPage > 1}
+                          onPrevious={() => setCurrentPage((prev) => prev - 1)}
+                          hasNext={indexOfLastItem < totalItems}
+                          onNext={() => setCurrentPage((prev) => prev + 1)}
+                        />
+                      </div>
+                    )}
+                  </>
+                )}
+              </LegacyCard>
+            </Layout.Section>
+          </Layout>
 
-                  {totalPages > 1 && (
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        padding: "16px 0",
-                        borderTop: "solid 1px rgb(233 222 222)",
-                      }}
-                    >
-                      <Pagination
-                        label={`Page ${currentPage} of ${totalPages}`}
-                        hasPrevious={currentPage > 1}
-                        onPrevious={() => setCurrentPage((prev) => prev - 1)}
-                        hasNext={indexOfLastItem < totalItems}
-                        onNext={() => setCurrentPage((prev) => prev + 1)}
-                      />
-                    </div>
-                  )}
-                </>
-              )}
-            </LegacyCard>
-          </Layout.Section>
-        </Layout>
-
-        <Modal
-          open={modalActive}
-          onClose={handleModalChange}
-          title="Confirm Deletion"
-          primaryAction={{
-            content: "Delete",
-            onAction: handleConfirmDelete,
-            destructive: true,
-            loading: isLoading,
-          }}
-          secondaryActions={[
-            {
-              content: "Cancel",
-              onAction: handleModalChange,
-            },
-          ]}
-        >
-          <Modal.Section>
-            <TextContainer>
-              <p>Are you sure you want to delete this item?</p>
-            </TextContainer>
-          </Modal.Section>
-        </Modal>
-        {toastMarkup}
-      </Page>
-    </Frame>
+          <Modal
+            open={modalActive}
+            onClose={handleModalChange}
+            title="Confirm Deletion"
+            primaryAction={{
+              content: "Delete",
+              onAction: handleConfirmDelete,
+              destructive: true,
+              loading: isLoading,
+            }}
+            secondaryActions={[
+              {
+                content: "Cancel",
+                onAction: handleModalChange,
+              },
+            ]}
+          >
+            <Modal.Section>
+              <TextContainer>
+                <p>Are you sure you want to delete this item?</p>
+              </TextContainer>
+            </Modal.Section>
+          </Modal>
+          {toastMarkup}
+        </Page>
+      </Frame>
+    </AppProvider>
   );
 };
 

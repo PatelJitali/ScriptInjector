@@ -1,4 +1,7 @@
-FROM node:18-alpine
+FROM node:18
+
+# Install OpenSSL
+RUN apt-get update && apt-get install -y openssl
 
 EXPOSE 3000
 

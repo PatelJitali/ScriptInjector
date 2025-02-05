@@ -6,8 +6,10 @@ import {
   DeliveryMethod
 } from "@shopify/shopify-app-remix/server";
 import { PrismaSessionStorage } from "@shopify/shopify-app-session-storage-prisma";
-import { restResources } from "@shopify/shopify-api/rest/admin/2024-07";
+import { restResources } from "@shopify/shopify-api/rest/admin/2024-10";
 import prisma from "./db.server";
+
+console.log(`${process.env.SHOPIFY_APP_URL}/webhooks/app/uninstalled`)
 
 const shopify = shopifyApp({
   apiKey: process.env.SHOPIFY_API_KEY,
@@ -21,11 +23,11 @@ const shopify = shopifyApp({
   webhooks: {
     APP_UNINSTALLED: {
       deliveryMethod: DeliveryMethod.Http,
-      callbackUrl: `${process.env.SHOPIFY_APP_URL}/webhooks/app/uninstalled`
+      callbackUrl: "/webhooks/app/uninstalled"
     },
     SHOP_REDACT: {
       deliveryMethod: DeliveryMethod.Http,
-      callbackUrl: `${process.env.SHOPIFY_APP_URL}/webhooks/shop/redact`
+      callbackUrl: "/webhooks/shop/redact"
     },
   },
   hooks: {

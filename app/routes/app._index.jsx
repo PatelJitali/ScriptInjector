@@ -148,7 +148,7 @@ export default function FirstPagePage() {
                 </Box>
                 <Box paddingBlockStart="100">
                   <InlineStack align="center">
-                    <Button size="large" url="/app/display_data">
+                    <Button size="large" url="/app/scriptdata">
                       Configure Data
                     </Button>
                   </InlineStack>
