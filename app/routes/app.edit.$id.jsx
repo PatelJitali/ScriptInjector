@@ -182,7 +182,7 @@ const Edit = () => {
 
                 const timeoutId = setTimeout(() => {
                     setActive(false);
-                    navigate('/app/display_data');
+                    navigate('/app/scriptdata');
                 }, 1500);
 
                 return () => clearTimeout(timeoutId);
@@ -266,7 +266,7 @@ const handleSubmit = (event) => {
         setEditHead(initialData.header);
         setEditBody(initialData.body);
         setIsDirty(false);
-        navigate('/app/display_data');
+        navigate('/app/scriptdata');
     };
 
     const toggleActive = useCallback(() => setActive((active) => !active), []);
@@ -290,7 +290,7 @@ const handleSubmit = (event) => {
 
     const toastMarkup = active ? <Toast content="Update Data Successfully" onDismiss={toggleActive} /> : null;
 
-    const back = () => navigate('/app/display_data');
+    const back = () => navigate('/app/scriptdata');
     return (
         <Frame
             logo={{

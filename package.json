@@ -23,6 +23,7 @@
     "node": "^18.20 || ^20.10 || >=21.0.0"
   },
   "dependencies": {
+    "@flydotio/litestream": "^1.0.1",
     "@prisma/client": "^5.11.0",
     "@remix-run/dev": "^2.7.1",
     "@remix-run/node": "^2.7.1",
@@ -41,6 +42,7 @@
     "vite-tsconfig-paths": "^5.0.1"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.7.4",
     "@remix-run/eslint-config": "^2.7.1",
     "@shopify/api-codegen-preset": "^1.1.1",
     "@types/eslint": "^8.40.0",
@@ -61,5 +63,8 @@
   ],
   "resolutions": {},
   "overrides": {},
-  "author": "CC1"
+  "author": "CC1",
+  "dockerfile": {
+    "litestream": true
+  }
 }

@@ -130,7 +130,7 @@ const Test = () => {
             setIsDirty(false);
             const timer = setTimeout(() => {
                 setActive(false);
-                navigate('/app/display_data');
+                navigate('/app/scriptdata');
             }, 1500);
             return () => clearTimeout(timer);
         }
@@ -223,11 +223,11 @@ const Test = () => {
         setHead(initialData.head);
         setBody(initialData.body);
         setIsDirty(false);
-        navigate('/app/display_data');
+        navigate('/app/scriptdata');
     }
 
     function back() {
-        navigate('/app/display_data');
+        navigate('/app/scriptdata');
     }
 
     return (

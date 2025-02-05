@@ -1,19 +1,28 @@
-# fly.toml app configuration file generated for scriptinjector on 2024-10-22T15:10:39+05:30
+# fly.toml app configuration file generated for scriptinjector on 2025-02-05T13:58:57+05:30
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
 app = 'scriptinjector'
-primary_region = 'ams'
+primary_region = 'sin'
 
 [build]
 
-[env] 
+[env]
+  PORT = '3000'
+  SCOPES = 'read_themes,write_themes'
+  SHOPIFY_API_KEY = '7870bea37008fd315d433195cc87e446'
+  SHOPIFY_APP_URL = 'https://scriptinjector.fly.dev'
 
- PORT = "3000"
- SHOPIFY_APP_URL = "https://scriptinjector.fly.dev/"
- SHOPIFY_API_KEY = "7870bea37008fd315d433195cc87e446"
- SCOPES = "read_themes,write_themes"
+[processes]
+  app = 'node ./dbsetup.js npm run docker-start'
+
+[[mounts]]
+  source = 'data'
+  destination = '/data'
+  auto_extend_size_threshold = 80
+  auto_extend_size_increment = '1GB'
+  auto_extend_size_limit = '10GB'
 
 [http_service]
   internal_port = 3000
