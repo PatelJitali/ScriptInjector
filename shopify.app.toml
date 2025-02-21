@@ -3,7 +3,7 @@
 client_id = "7870bea37008fd315d433195cc87e446"
 name = "ScriptInjector"
 handle = "scriptinjectorapp"
-application_url = "https://scriptinjector.fly.dev"
+application_url = "https://scriptinjector-app.onrender.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_themes,write_themes"
 
 [auth]
 redirect_urls = [
-  "https://scriptinjector.fly.dev/auth/callback",
-  "https://scriptinjector.fly.dev/auth/shopify/callback",
-  "https://scriptinjector.fly.dev/api/auth/callback"
+  "https://scriptinjector-app.onrender.com/auth/callback",
+  "https://scriptinjector-app.onrender.com/auth/shopify/callback",
+  "https://scriptinjector-app.onrender.com/api/auth/callback"
 ]
 
 [webhooks]
